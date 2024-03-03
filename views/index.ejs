@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NBA Player Information</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>NBA Player Information</h1>
+    <form id="playerForm" action="/get-name" method="post">
+        <label for="first_name">Enter First Name:</label>
+        <input type="text" id="first_name" name="first_name" required>
+        <label for="last_name">Enter Last Name:</label>
+        <input type="text" id="last_name" name="last_name" required>
+        <button type="submit">Submit</button> 
+    </form> <br>
+    <div class="center-container">
+        <button id="randomButton" onclick="window.location.href='/get-random-player'">Random Player</button> <br>
+    </div>
+    
+    <div id="playerInfo" class="center-container">
+        <div id="playerInfo">
+            <% if (playerData) { %>
+                <% try { %>
+                    <% var player = JSON.parse(playerData).data; %>
+                    <% if (Array.isArray(player)) { %>
+                        <% player = player[0]; %>
+                    <% } %>
+                    <p>Player Name: <%= player.first_name %> <%= player.last_name %></p>
+                    <% if (player.team) { %>
+                        <p>Team: <%= player.team.city %> <%= player.team.name %></p>
+                    <% } else { %>
+                        <p>Team: Not available</p>
+                    <% } %>
+                    <p>Position: <%= player.position %></p>
+                    <p>Height: <%= player.height %></p>
+                    <p>Weight: <%= player.weight %></p>
+                    <p>College: <%= player.college %></p>
+                    <p>Draft Year: <%= player.draft_year %></p>
+                    <p>Round: <%= player.draft_round %></p>
+                    <p>Pick: <%= player.draft_number %></p>
+                <% } catch (error) { %>
+                    <p>Error parsing player data</p>
+                <% } %>
+            <% } else { %>
+                <p>No player data available</p>
+            <% } %>
+            
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
